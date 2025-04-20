@@ -31,19 +31,19 @@ function changeBackground(weather) {
     let bgColor;
     switch (weather) {
         case "Clear":
-            bgColor = "#FFD700"; // Gold for clear weather
+            bgColor = "#c0c0c0"; // light gray for clear weather
             break;
         case "Clouds":
-            bgColor = "#B0C4DE"; // Light steel blue for clouds
+            bgColor = "#808080"; //  gray blue for clouds
             break;
         case "Rain":
-            bgColor = "#778899"; // Dark gray for rain
+            bgColor = "#000000"; // Dark black for rain
             break;
         case "Snow":
-            bgColor = "#FFFFFF"; // White for snow
+            bgColor = "#fffff"; // White for snow
             break;
         default:
-            bgColor = "#87CEEB"; // Default to sky blue
+            bgColor = "#00ffff"; // Default to sky blue
     }
     document.body.style.backgroundColor = bgColor;
 
