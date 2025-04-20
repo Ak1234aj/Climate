@@ -27,23 +27,5 @@ function getWeather(city) {
         .catch(error => alert("City not found!"));
 }
 
-function changeBackground(weather) {
-    let bgColor;
-    switch (weather) {
-        case "Clear":
-            bgColor = "#FFD700"; // Gold for clear weather
-            break;
-        case "Clouds":
-            bgColor = "#B0C4DE"; // Light steel blue for clouds
-            break;
-        case "Rain":
-            bgColor = "#778899"; // Dark gray for rain
-            break;
-        case "Snow":
-            bgColor = "#FFFFFF"; // White for snow
-            break;
-        default:
-            bgColor = "#87CEEB"; // Default to sky blue
-    }
-    document.body.style.backgroundColor = bgColor;
+
 }
