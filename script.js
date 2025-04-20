@@ -1,42 +1,49 @@
-function fetchWeather() {
-    const city = document.getElementById("city").value.trim();
-    if (!city) {
-        document.getElementById("weather").innerText = "Please enter a city.";
-        return;
+
+const apiKey = "d8433ad440d78d16bdd97ed604212469";
+
+document.getElementById("searchBtn").addEventListener("click", function () {
+    let city = document.getElementById("cityInput").value;
+    if (city) {
+        getWeather(city);
+    } else {
+        alert("Please enter a city name!");
     }
+});
 
-    const geoApiUrl = https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&format=json;
+function getWeather(city) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-    fetch(geoApiUrl)
+    fetch(url)
         .then(response => response.json())
         .then(data => {
-            if (!data.results || data.results.length === 0) {
-                document.getElementById("weather").innerText = "City not found.";
-                return;
-            }
+            document.getElementById("cityName").textContent = `Weather in ${data.name}`;
+            document.getElementById("temperature").textContent = `🌡 Temperature: ${data.main.temp}°C`;
+            document.getElementById("humidity").textContent = `💧 Humidity: ${data.main.humidity}%`;
+            document.getElementById("windSpeed").textContent = `💨 Wind Speed: ${data.wind.speed} m/s`;
+            document.getElementById("weatherCondition").textContent = `☁ Condition: ${data.weather[0].description}`;
 
-            const lat = data.results[0].latitude;
-            const lon = data.results[0].longitude;
-
-            const weatherApiUrl = https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true;
-
-            return fetch(weatherApiUrl);
+            changeBackground(data.weather[0].main);
         })
-        .then(response => response.json())
-        .then(weatherData => {
-            if (!weatherData || !weatherData.current_weather) {
-                document.getElementById("weather").innerText = "Weather data not available.";
-                return;
-            }
+        .catch(error => alert("City not found!"));
+}
 
-            const temp = weatherData.current_weather.temperature;
-            const windSpeed = weatherData.current_weather.windspeed;
-            const condition = weatherData.current_weather.weathercode;
-
-            document.getElementById("weather").innerText = 🌡 Temperature: ${temp}°C | 💨 Wind Speed: ${windSpeed} km/h;
-        })
-        .catch(error => {
-            console.error("Error fetching weather:", error);
-            document.getElementById("weather").innerText = "Error fetching weather data.";
-        });
+function changeBackground(weather) {
+    let bgColor;
+    switch (weather) {
+        case "Clear":
+            bgColor = "#FFD700"; // Gold for clear weather
+            break;
+        case "Clouds":
+            bgColor = "#B0C4DE"; // Light steel blue for clouds
+            break;
+        case "Rain":
+            bgColor = "#778899"; // Dark gray for rain
+            break;
+        case "Snow":
+            bgColor = "#FFFFFF"; // White for snow
+            break;
+        default:
+            bgColor = "#87CEEB"; // Default to sky blue
+    }
+    document.body.style.backgroundColor = bgColor;
 }
